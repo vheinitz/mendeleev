@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart' hide Element;
 import '../data/elements_data.dart';
+import '../data/electronegativity.dart';
 import '../data/substances.dart';
 import '../data/valences.dart';
 import '../models/element.dart';
@@ -9,6 +10,7 @@ import '../services/distractors.dart';
 import '../services/formula_parser.dart';
 import '../widgets/colors.dart';
 import 'config_screen.dart';
+import 'find_element_screen.dart';
 
 enum QuizType {
   group,
@@ -17,6 +19,7 @@ enum QuizType {
   latin,
   gap,
   valence,
+  electronegativity,
   substanceToFormula,
   formulaToSubstance,
   elementToMass,
@@ -40,6 +43,8 @@ class QuizMenuScreen extends StatelessWidget {
           _tile(context, '🏛️', 'Lateinische Namen', 'Deutsche und lateinische Namen zuordnen', QuizType.latin, Colors.purple),
           _tile(context, '🧩', 'Lücke füllen', 'Das fehlende Element zwischen Nachbarn finden', QuizType.gap, Colors.orange),
           _tile(context, '⚡', 'Wertigkeit', 'Die Wertigkeit eines Elements nennen', QuizType.valence, Colors.amber),
+          _tile(context, '🎯', 'Elektronegativität', 'Die EN eines Elements nennen', QuizType.electronegativity, Colors.deepOrange),
+          _tile(context, '🔍', 'Element finden', 'Gesuchtes Element in der Tabelle anklicken (Zeit läuft!)', QuizType.electronegativity, Colors.pink, findMode: true),
           _tile(context, '🧪', 'Stoff → Formel', 'Zur Stoffbezeichnung die Formel finden', QuizType.substanceToFormula, Colors.teal),
           _tile(context, '📝', 'Formel → Stoff', 'Zur Formel den Stoffnamen finden', QuizType.formulaToSubstance, Colors.cyan),
           _tile(context, '⚖️', 'Element → Molmasse', 'Die Molmasse eines Elements nennen', QuizType.elementToMass, Colors.green),
@@ -50,7 +55,7 @@ class QuizMenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _tile(BuildContext context, String icon, String title, String subtitle, QuizType type, Color color) {
+  Widget _tile(BuildContext context, String icon, String title, String subtitle, QuizType type, Color color, {bool findMode = false}) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       child: ListTile(
@@ -61,7 +66,10 @@ class QuizMenuScreen extends StatelessWidget {
         trailing: Icon(Icons.play_circle, color: color, size: 30),
         tileColor: color.withValues(alpha: 0.07),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => QuizScreen(type: type))),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => findMode ? const FindElementScreen() : QuizScreen(type: type)),
+        ),
       ),
     );
   }
@@ -123,6 +131,7 @@ class _QuizScreenState extends State<QuizScreen> {
         QuizType.latin => 'Lateinische Namen',
         QuizType.gap => 'Lücke füllen',
         QuizType.valence => 'Wertigkeit',
+        QuizType.electronegativity => 'Elektronegativität',
         QuizType.substanceToFormula => 'Stoff → Formel',
         QuizType.formulaToSubstance => 'Formel → Stoff',
         QuizType.elementToMass => 'Element → Molmasse',
@@ -211,6 +220,8 @@ class _QuizScreenState extends State<QuizScreen> {
         return _makeGapQuestion();
       case QuizType.valence:
         return _makeValenceQuestion();
+      case QuizType.electronegativity:
+        return _makeElectronegativityQuestion();
       case QuizType.substanceToFormula:
       case QuizType.formulaToSubstance:
         return _makeSubstanceQuestion(toFormula: widget.type == QuizType.substanceToFormula);
@@ -322,6 +333,26 @@ class _QuizScreenState extends State<QuizScreen> {
       options: options.options,
       correctIndex: options.correctIndex,
       explanation: '${e.nameDe} hat die Wertigkeit $correct.',
+    );
+  }
+
+  Question _makeElectronegativityQuestion() {
+    final withEn = elements.where((e) => electronegativityOf(e.number) != null).toList();
+    final active = withEn.where((e) => _settings.isActive(e.number)).toList();
+    final e = _pickElement(active.isEmpty ? withEn : active);
+    final en = electronegativityOf(e.number)!;
+    final correct = _fmtNum(en);
+    final values = withEn.map((x) => electronegativityOf(x.number)!).toSet().toList()
+      ..sort((a, b) => (a - en).abs().compareTo((b - en).abs()));
+    final options = _numericOptions(correct, values.where((v) => (v - en).abs() > 0.005).take(8).toList());
+    return Question(
+      prompt: 'Welche Elektronegativität hat dieses Element?',
+      header: _ElementBadge(element: e),
+      answerElement: e,
+      key: 'e${e.number}',
+      options: options.options,
+      correctIndex: options.correctIndex,
+      explanation: '${e.nameDe} hat die Elektronegativität $correct.',
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Element;
+import '../data/electronegativity.dart';
 import '../data/elements_data.dart';
 import '../data/valences.dart';
 import '../models/element.dart';
@@ -11,10 +12,12 @@ import 'electron_shell_diagram.dart';
 /// * [onTap] – Aktion beim Antippen eines Elements (z. B. Details oder Umschalten)
 /// * [errorCounts] – Fehler je Ordnungszahl -> roter Rahmen (Statistik)
 /// * [disabledNumbers] – ausgeblendete Elemente -> grau dargestellt
+/// * [highlights] – farbige Markierungen je Ordnungszahl (z. B. richtig/falsch)
 class PeriodicTableGrid extends StatelessWidget {
   final void Function(Element element)? onTap;
   final Map<int, int>? errorCounts;
   final Set<int>? disabledNumbers;
+  final Map<int, Color>? highlights;
   final double cellW;
   final double cellH;
 
@@ -23,6 +26,7 @@ class PeriodicTableGrid extends StatelessWidget {
     this.onTap,
     this.errorCounts,
     this.disabledNumbers,
+    this.highlights,
     this.cellW = 34,
     this.cellH = 46,
   });
@@ -126,10 +130,13 @@ class PeriodicTableGrid extends StatelessWidget {
   Widget _cell(Element e) {
     final disabled = disabledNumbers?.contains(e.number) ?? false;
     final errors = errorCounts?[e.number] ?? 0;
+    final highlight = highlights?[e.number];
 
     final Color bg = disabled ? Colors.grey.shade300 : elementColor(e);
     Border? border;
-    if (errors > 0) {
+    if (highlight != null) {
+      border = Border.all(color: highlight, width: 2.5);
+    } else if (errors > 0) {
       final width = 1.0 + errors.clamp(0, 5).toDouble();
       border = Border.all(color: Colors.red.withValues(alpha: (0.4 + errors.clamp(0, 5) * 0.1).clamp(0.0, 1.0)), width: width);
     }
@@ -247,6 +254,7 @@ void showElementDetails(BuildContext context, Element e) {
               _InfoRow(label: 'Gruppe', value: '${e.group}'),
               _InfoRow(label: 'Periode', value: '${e.period}'),
               _InfoRow(label: 'Wertigkeit', value: valenceLabel(e.number)),
+              _InfoRow(label: 'Elektronegativität', value: electronegativityLabel(e.number)),
               _InfoRow(label: 'Kategorie', value: e.category),
               _InfoRow(label: 'Molmasse', value: '${e.massLabel} g/mol'),
               const SizedBox(height: 12),

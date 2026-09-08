@@ -13,14 +13,17 @@ class AppSettings extends ChangeNotifier {
   static const _keyActive = 'active_elements';
   static const _keyErrors = 'error_counts';
   static const _keyShowStats = 'show_stats';
+  static const _keyFindSeconds = 'find_seconds';
 
   Set<int> _activeNumbers = {};
   Map<int, int> _errorCounts = {};
   bool _showStats = false;
+  int _findSeconds = 5;
 
   Set<int> get activeNumbers => _activeNumbers;
   Map<int, int> get errorCounts => _errorCounts;
   bool get showStats => _showStats;
+  int get findSeconds => _findSeconds;
 
   bool isActive(int number) => _activeNumbers.contains(number);
   int get activeCount => _activeNumbers.length;
@@ -54,6 +57,7 @@ class AppSettings extends ChangeNotifier {
     }
 
     _showStats = prefs.getBool(_keyShowStats) ?? false;
+    _findSeconds = prefs.getInt(_keyFindSeconds) ?? 5;
     notifyListeners();
   }
 
@@ -68,6 +72,7 @@ class AppSettings extends ChangeNotifier {
       _errorCounts.entries.map((e) => '${e.key}:${e.value}').join(';'),
     );
     await prefs.setBool(_keyShowStats, _showStats);
+    await prefs.setInt(_keyFindSeconds, _findSeconds);
   }
 
   /// Schaltet ein Element um (aktiv <-> ausgeblendet).
@@ -102,6 +107,12 @@ class AppSettings extends ChangeNotifier {
 
   Future<void> setShowStats(bool value) async {
     _showStats = value;
+    notifyListeners();
+    await _save();
+  }
+
+  Future<void> setFindSeconds(int value) async {
+    _findSeconds = value;
     notifyListeners();
     await _save();
   }

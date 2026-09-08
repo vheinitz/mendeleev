@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mendeleev/main.dart';
 import 'package:mendeleev/data/elements_data.dart';
+import 'package:mendeleev/data/electronegativity.dart';
 import 'package:mendeleev/data/substances.dart';
 import 'package:mendeleev/data/valences.dart';
 import 'package:mendeleev/services/app_settings.dart';
@@ -100,6 +101,14 @@ void main() {
     expect(s.activeNumbers, containsAll([1, 6, 8, 26, 79]));
     expect(s.activeNumbers, isNot(contains(57))); // Lanthan ist standardmäßig aus
     expect(s.activeNumbers, isNot(contains(90))); // Thorium ist standardmäßig aus
+    expect(s.findSeconds, 5); // Standard-Zeit beim Element-Finden
+  });
+
+  test('Elektronegativität (Pauling)', () {
+    expect(electronegativityOf(9), closeTo(3.98, 0.001)); // Fluor
+    expect(electronegativityOf(8), closeTo(3.44, 0.001)); // Sauerstoff
+    expect(electronegativityOf(2), isNull); // Helium: nicht definiert
+    expect(electronegativityLabel(9), '3.98');
   });
 
   test('Elektronenschalen (Bohr-Modell)', () {

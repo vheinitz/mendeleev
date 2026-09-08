@@ -1,0 +1,162 @@
+import '../models/element.dart';
+
+/// Alle 118 chemischen Elemente (sortiert nach Ordnungszahl).
+const List<Element> elements = [
+  Element(number: 1, symbol: 'H', nameDe: 'Wasserstoff', nameLa: 'Hydrogenium', mass: 1.008, group: 1, period: 1, category: 'Nichtmetall'),
+  Element(number: 2, symbol: 'He', nameDe: 'Helium', nameLa: 'Helium', mass: 4.0026, group: 18, period: 1, category: 'Edelgas'),
+  Element(number: 3, symbol: 'Li', nameDe: 'Lithium', nameLa: 'Lithium', mass: 6.94, group: 1, period: 2, category: 'Alkalimetall'),
+  Element(number: 4, symbol: 'Be', nameDe: 'Beryllium', nameLa: 'Beryllium', mass: 9.0122, group: 2, period: 2, category: 'Erdalkalimetall'),
+  Element(number: 5, symbol: 'B', nameDe: 'Bor', nameLa: 'Borum', mass: 10.81, group: 13, period: 2, category: 'Halbmetall'),
+  Element(number: 6, symbol: 'C', nameDe: 'Kohlenstoff', nameLa: 'Carboneum', mass: 12.011, group: 14, period: 2, category: 'Nichtmetall'),
+  Element(number: 7, symbol: 'N', nameDe: 'Stickstoff', nameLa: 'Nitrogenium', mass: 14.007, group: 15, period: 2, category: 'Nichtmetall'),
+  Element(number: 8, symbol: 'O', nameDe: 'Sauerstoff', nameLa: 'Oxygenium', mass: 15.999, group: 16, period: 2, category: 'Nichtmetall'),
+  Element(number: 9, symbol: 'F', nameDe: 'Fluor', nameLa: 'Fluorum', mass: 18.998, group: 17, period: 2, category: 'Halogen'),
+  Element(number: 10, symbol: 'Ne', nameDe: 'Neon', nameLa: 'Neon', mass: 20.180, group: 18, period: 2, category: 'Edelgas'),
+  Element(number: 11, symbol: 'Na', nameDe: 'Natrium', nameLa: 'Natrium', mass: 22.990, group: 1, period: 3, category: 'Alkalimetall'),
+  Element(number: 12, symbol: 'Mg', nameDe: 'Magnesium', nameLa: 'Magnesium', mass: 24.305, group: 2, period: 3, category: 'Erdalkalimetall'),
+  Element(number: 13, symbol: 'Al', nameDe: 'Aluminium', nameLa: 'Aluminium', mass: 26.982, group: 13, period: 3, category: 'Metall'),
+  Element(number: 14, symbol: 'Si', nameDe: 'Silicium', nameLa: 'Silicium', mass: 28.085, group: 14, period: 3, category: 'Halbmetall'),
+  Element(number: 15, symbol: 'P', nameDe: 'Phosphor', nameLa: 'Phosphorus', mass: 30.974, group: 15, period: 3, category: 'Nichtmetall'),
+  Element(number: 16, symbol: 'S', nameDe: 'Schwefel', nameLa: 'Sulfur', mass: 32.06, group: 16, period: 3, category: 'Nichtmetall'),
+  Element(number: 17, symbol: 'Cl', nameDe: 'Chlor', nameLa: 'Chlorum', mass: 35.45, group: 17, period: 3, category: 'Halogen'),
+  Element(number: 18, symbol: 'Ar', nameDe: 'Argon', nameLa: 'Argon', mass: 39.948, group: 18, period: 3, category: 'Edelgas'),
+  Element(number: 19, symbol: 'K', nameDe: 'Kalium', nameLa: 'Kalium', mass: 39.098, group: 1, period: 4, category: 'Alkalimetall'),
+  Element(number: 20, symbol: 'Ca', nameDe: 'Calcium', nameLa: 'Calcium', mass: 40.078, group: 2, period: 4, category: 'Erdalkalimetall'),
+  Element(number: 21, symbol: 'Sc', nameDe: 'Scandium', nameLa: 'Scandium', mass: 44.956, group: 3, period: 4, category: 'Übergangsmetall'),
+  Element(number: 22, symbol: 'Ti', nameDe: 'Titan', nameLa: 'Titanium', mass: 47.867, group: 4, period: 4, category: 'Übergangsmetall'),
+  Element(number: 23, symbol: 'V', nameDe: 'Vanadium', nameLa: 'Vanadium', mass: 50.942, group: 5, period: 4, category: 'Übergangsmetall'),
+  Element(number: 24, symbol: 'Cr', nameDe: 'Chrom', nameLa: 'Chromium', mass: 51.996, group: 6, period: 4, category: 'Übergangsmetall'),
+  Element(number: 25, symbol: 'Mn', nameDe: 'Mangan', nameLa: 'Manganum', mass: 54.938, group: 7, period: 4, category: 'Übergangsmetall'),
+  Element(number: 26, symbol: 'Fe', nameDe: 'Eisen', nameLa: 'Ferrum', mass: 55.845, group: 8, period: 4, category: 'Übergangsmetall'),
+  Element(number: 27, symbol: 'Co', nameDe: 'Cobalt', nameLa: 'Cobaltum', mass: 58.933, group: 9, period: 4, category: 'Übergangsmetall'),
+  Element(number: 28, symbol: 'Ni', nameDe: 'Nickel', nameLa: 'Niccolum', mass: 58.693, group: 10, period: 4, category: 'Übergangsmetall'),
+  Element(number: 29, symbol: 'Cu', nameDe: 'Kupfer', nameLa: 'Cuprum', mass: 63.546, group: 11, period: 4, category: 'Übergangsmetall'),
+  Element(number: 30, symbol: 'Zn', nameDe: 'Zink', nameLa: 'Zincum', mass: 65.38, group: 12, period: 4, category: 'Übergangsmetall'),
+  Element(number: 31, symbol: 'Ga', nameDe: 'Gallium', nameLa: 'Gallium', mass: 69.723, group: 13, period: 4, category: 'Metall'),
+  Element(number: 32, symbol: 'Ge', nameDe: 'Germanium', nameLa: 'Germanium', mass: 72.630, group: 14, period: 4, category: 'Halbmetall'),
+  Element(number: 33, symbol: 'As', nameDe: 'Arsen', nameLa: 'Arsenicum', mass: 74.922, group: 15, period: 4, category: 'Halbmetall'),
+  Element(number: 34, symbol: 'Se', nameDe: 'Selen', nameLa: 'Selenium', mass: 78.971, group: 16, period: 4, category: 'Nichtmetall'),
+  Element(number: 35, symbol: 'Br', nameDe: 'Brom', nameLa: 'Bromum', mass: 79.904, group: 17, period: 4, category: 'Halogen'),
+  Element(number: 36, symbol: 'Kr', nameDe: 'Krypton', nameLa: 'Krypton', mass: 83.798, group: 18, period: 4, category: 'Edelgas'),
+  Element(number: 37, symbol: 'Rb', nameDe: 'Rubidium', nameLa: 'Rubidium', mass: 85.468, group: 1, period: 5, category: 'Alkalimetall'),
+  Element(number: 38, symbol: 'Sr', nameDe: 'Strontium', nameLa: 'Strontium', mass: 87.62, group: 2, period: 5, category: 'Erdalkalimetall'),
+  Element(number: 39, symbol: 'Y', nameDe: 'Yttrium', nameLa: 'Yttrium', mass: 88.906, group: 3, period: 5, category: 'Übergangsmetall'),
+  Element(number: 40, symbol: 'Zr', nameDe: 'Zirconium', nameLa: 'Zirconium', mass: 91.224, group: 4, period: 5, category: 'Übergangsmetall'),
+  Element(number: 41, symbol: 'Nb', nameDe: 'Niob', nameLa: 'Niobium', mass: 92.906, group: 5, period: 5, category: 'Übergangsmetall'),
+  Element(number: 42, symbol: 'Mo', nameDe: 'Molybdän', nameLa: 'Molybdenum', mass: 95.95, group: 6, period: 5, category: 'Übergangsmetall'),
+  Element(number: 43, symbol: 'Tc', nameDe: 'Technetium', nameLa: 'Technetium', mass: 98.0, group: 7, period: 5, category: 'Übergangsmetall'),
+  Element(number: 44, symbol: 'Ru', nameDe: 'Ruthenium', nameLa: 'Ruthenium', mass: 101.07, group: 8, period: 5, category: 'Übergangsmetall'),
+  Element(number: 45, symbol: 'Rh', nameDe: 'Rhodium', nameLa: 'Rhodium', mass: 102.91, group: 9, period: 5, category: 'Übergangsmetall'),
+  Element(number: 46, symbol: 'Pd', nameDe: 'Palladium', nameLa: 'Palladium', mass: 106.42, group: 10, period: 5, category: 'Übergangsmetall'),
+  Element(number: 47, symbol: 'Ag', nameDe: 'Silber', nameLa: 'Argentum', mass: 107.87, group: 11, period: 5, category: 'Übergangsmetall'),
+  Element(number: 48, symbol: 'Cd', nameDe: 'Cadmium', nameLa: 'Cadmium', mass: 112.41, group: 12, period: 5, category: 'Übergangsmetall'),
+  Element(number: 49, symbol: 'In', nameDe: 'Indium', nameLa: 'Indium', mass: 114.82, group: 13, period: 5, category: 'Metall'),
+  Element(number: 50, symbol: 'Sn', nameDe: 'Zinn', nameLa: 'Stannum', mass: 118.71, group: 14, period: 5, category: 'Metall'),
+  Element(number: 51, symbol: 'Sb', nameDe: 'Antimon', nameLa: 'Stibium', mass: 121.76, group: 15, period: 5, category: 'Halbmetall'),
+  Element(number: 52, symbol: 'Te', nameDe: 'Tellur', nameLa: 'Tellurium', mass: 127.60, group: 16, period: 5, category: 'Halbmetall'),
+  Element(number: 53, symbol: 'I', nameDe: 'Iod', nameLa: 'Iodum', mass: 126.90, group: 17, period: 5, category: 'Halogen'),
+  Element(number: 54, symbol: 'Xe', nameDe: 'Xenon', nameLa: 'Xenon', mass: 131.29, group: 18, period: 5, category: 'Edelgas'),
+  Element(number: 55, symbol: 'Cs', nameDe: 'Caesium', nameLa: 'Caesium', mass: 132.91, group: 1, period: 6, category: 'Alkalimetall'),
+  Element(number: 56, symbol: 'Ba', nameDe: 'Barium', nameLa: 'Barium', mass: 137.33, group: 2, period: 6, category: 'Erdalkalimetall'),
+  Element(number: 57, symbol: 'La', nameDe: 'Lanthan', nameLa: 'Lanthanum', mass: 138.91, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 58, symbol: 'Ce', nameDe: 'Cer', nameLa: 'Cerium', mass: 140.12, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 59, symbol: 'Pr', nameDe: 'Praseodym', nameLa: 'Praseodymium', mass: 140.91, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 60, symbol: 'Nd', nameDe: 'Neodym', nameLa: 'Neodymium', mass: 144.24, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 61, symbol: 'Pm', nameDe: 'Promethium', nameLa: 'Promethium', mass: 145.0, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 62, symbol: 'Sm', nameDe: 'Samarium', nameLa: 'Samarium', mass: 150.36, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 63, symbol: 'Eu', nameDe: 'Europium', nameLa: 'Europium', mass: 151.96, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 64, symbol: 'Gd', nameDe: 'Gadolinium', nameLa: 'Gadolinium', mass: 157.25, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 65, symbol: 'Tb', nameDe: 'Terbium', nameLa: 'Terbium', mass: 158.93, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 66, symbol: 'Dy', nameDe: 'Dysprosium', nameLa: 'Dysprosium', mass: 162.50, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 67, symbol: 'Ho', nameDe: 'Holmium', nameLa: 'Holmium', mass: 164.93, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 68, symbol: 'Er', nameDe: 'Erbium', nameLa: 'Erbium', mass: 167.26, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 69, symbol: 'Tm', nameDe: 'Thulium', nameLa: 'Thulium', mass: 168.93, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 70, symbol: 'Yb', nameDe: 'Ytterbium', nameLa: 'Ytterbium', mass: 173.05, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 71, symbol: 'Lu', nameDe: 'Lutetium', nameLa: 'Lutetium', mass: 174.97, group: 3, period: 6, category: 'Lanthanoid', series: 'la'),
+  Element(number: 72, symbol: 'Hf', nameDe: 'Hafnium', nameLa: 'Hafnium', mass: 178.49, group: 4, period: 6, category: 'Übergangsmetall'),
+  Element(number: 73, symbol: 'Ta', nameDe: 'Tantal', nameLa: 'Tantalum', mass: 180.95, group: 5, period: 6, category: 'Übergangsmetall'),
+  Element(number: 74, symbol: 'W', nameDe: 'Wolfram', nameLa: 'Wolframium', mass: 183.84, group: 6, period: 6, category: 'Übergangsmetall'),
+  Element(number: 75, symbol: 'Re', nameDe: 'Rhenium', nameLa: 'Rhenium', mass: 186.21, group: 7, period: 6, category: 'Übergangsmetall'),
+  Element(number: 76, symbol: 'Os', nameDe: 'Osmium', nameLa: 'Osmium', mass: 190.23, group: 8, period: 6, category: 'Übergangsmetall'),
+  Element(number: 77, symbol: 'Ir', nameDe: 'Iridium', nameLa: 'Iridium', mass: 192.22, group: 9, period: 6, category: 'Übergangsmetall'),
+  Element(number: 78, symbol: 'Pt', nameDe: 'Platin', nameLa: 'Platinum', mass: 195.08, group: 10, period: 6, category: 'Übergangsmetall'),
+  Element(number: 79, symbol: 'Au', nameDe: 'Gold', nameLa: 'Aurum', mass: 196.97, group: 11, period: 6, category: 'Übergangsmetall'),
+  Element(number: 80, symbol: 'Hg', nameDe: 'Quecksilber', nameLa: 'Hydrargyrum', mass: 200.59, group: 12, period: 6, category: 'Übergangsmetall'),
+  Element(number: 81, symbol: 'Tl', nameDe: 'Thallium', nameLa: 'Thallium', mass: 204.38, group: 13, period: 6, category: 'Metall'),
+  Element(number: 82, symbol: 'Pb', nameDe: 'Blei', nameLa: 'Plumbum', mass: 207.2, group: 14, period: 6, category: 'Metall'),
+  Element(number: 83, symbol: 'Bi', nameDe: 'Bismut', nameLa: 'Bismutum', mass: 208.98, group: 15, period: 6, category: 'Metall'),
+  Element(number: 84, symbol: 'Po', nameDe: 'Polonium', nameLa: 'Polonium', mass: 209.0, group: 16, period: 6, category: 'Metall'),
+  Element(number: 85, symbol: 'At', nameDe: 'Astat', nameLa: 'Astatium', mass: 210.0, group: 17, period: 6, category: 'Halogen'),
+  Element(number: 86, symbol: 'Rn', nameDe: 'Radon', nameLa: 'Radon', mass: 222.0, group: 18, period: 6, category: 'Edelgas'),
+  Element(number: 87, symbol: 'Fr', nameDe: 'Francium', nameLa: 'Francium', mass: 223.0, group: 1, period: 7, category: 'Alkalimetall'),
+  Element(number: 88, symbol: 'Ra', nameDe: 'Radium', nameLa: 'Radium', mass: 226.0, group: 2, period: 7, category: 'Erdalkalimetall'),
+  Element(number: 89, symbol: 'Ac', nameDe: 'Actinium', nameLa: 'Actinium', mass: 227.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 90, symbol: 'Th', nameDe: 'Thorium', nameLa: 'Thorium', mass: 232.04, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 91, symbol: 'Pa', nameDe: 'Protactinium', nameLa: 'Protactinium', mass: 231.04, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 92, symbol: 'U', nameDe: 'Uran', nameLa: 'Uranium', mass: 238.03, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 93, symbol: 'Np', nameDe: 'Neptunium', nameLa: 'Neptunium', mass: 237.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 94, symbol: 'Pu', nameDe: 'Plutonium', nameLa: 'Plutonium', mass: 244.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 95, symbol: 'Am', nameDe: 'Americium', nameLa: 'Americium', mass: 243.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 96, symbol: 'Cm', nameDe: 'Curium', nameLa: 'Curium', mass: 247.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 97, symbol: 'Bk', nameDe: 'Berkelium', nameLa: 'Berkelium', mass: 247.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 98, symbol: 'Cf', nameDe: 'Californium', nameLa: 'Californium', mass: 251.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 99, symbol: 'Es', nameDe: 'Einsteinium', nameLa: 'Einsteinium', mass: 252.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 100, symbol: 'Fm', nameDe: 'Fermium', nameLa: 'Fermium', mass: 257.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 101, symbol: 'Md', nameDe: 'Mendelevium', nameLa: 'Mendelevium', mass: 258.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 102, symbol: 'No', nameDe: 'Nobelium', nameLa: 'Nobelium', mass: 259.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 103, symbol: 'Lr', nameDe: 'Lawrencium', nameLa: 'Lawrencium', mass: 266.0, group: 3, period: 7, category: 'Actinoid', series: 'ac'),
+  Element(number: 104, symbol: 'Rf', nameDe: 'Rutherfordium', nameLa: 'Rutherfordium', mass: 267.0, group: 4, period: 7, category: 'Übergangsmetall'),
+  Element(number: 105, symbol: 'Db', nameDe: 'Dubnium', nameLa: 'Dubnium', mass: 268.0, group: 5, period: 7, category: 'Übergangsmetall'),
+  Element(number: 106, symbol: 'Sg', nameDe: 'Seaborgium', nameLa: 'Seaborgium', mass: 269.0, group: 6, period: 7, category: 'Übergangsmetall'),
+  Element(number: 107, symbol: 'Bh', nameDe: 'Bohrium', nameLa: 'Bohrium', mass: 270.0, group: 7, period: 7, category: 'Übergangsmetall'),
+  Element(number: 108, symbol: 'Hs', nameDe: 'Hassium', nameLa: 'Hassium', mass: 277.0, group: 8, period: 7, category: 'Übergangsmetall'),
+  Element(number: 109, symbol: 'Mt', nameDe: 'Meitnerium', nameLa: 'Meitnerium', mass: 278.0, group: 9, period: 7, category: 'Übergangsmetall'),
+  Element(number: 110, symbol: 'Ds', nameDe: 'Darmstadtium', nameLa: 'Darmstadtium', mass: 281.0, group: 10, period: 7, category: 'Übergangsmetall'),
+  Element(number: 111, symbol: 'Rg', nameDe: 'Roentgenium', nameLa: 'Roentgenium', mass: 282.0, group: 11, period: 7, category: 'Übergangsmetall'),
+  Element(number: 112, symbol: 'Cn', nameDe: 'Copernicium', nameLa: 'Copernicium', mass: 285.0, group: 12, period: 7, category: 'Übergangsmetall'),
+  Element(number: 113, symbol: 'Nh', nameDe: 'Nihonium', nameLa: 'Nihonium', mass: 286.0, group: 13, period: 7, category: 'Metall'),
+  Element(number: 114, symbol: 'Fl', nameDe: 'Flerovium', nameLa: 'Flerovium', mass: 289.0, group: 14, period: 7, category: 'Metall'),
+  Element(number: 115, symbol: 'Mc', nameDe: 'Moscovium', nameLa: 'Moscovium', mass: 290.0, group: 15, period: 7, category: 'Metall'),
+  Element(number: 116, symbol: 'Lv', nameDe: 'Livermorium', nameLa: 'Livermorium', mass: 293.0, group: 16, period: 7, category: 'Metall'),
+  Element(number: 117, symbol: 'Ts', nameDe: 'Tenness', nameLa: 'Tennessum', mass: 294.0, group: 17, period: 7, category: 'Halogen'),
+  Element(number: 118, symbol: 'Og', nameDe: 'Oganesson', nameLa: 'Oganesson', mass: 294.0, group: 18, period: 7, category: 'Edelgas'),
+];
+
+/// Schnellzugriff nach Symbol.
+final Map<String, Element> elementBySymbol = {for (final e in elements) e.symbol: e};
+
+/// Schnellzugriff nach Ordnungszahl.
+final Map<int, Element> elementByNumber = {for (final e in elements) e.number: e};
+
+/// Ordnungszahlen der wichtigsten (im Schulunterricht üblichen) Elemente.
+/// Wird als Standard-Auswahl verwendet, damit man sich auf das Wesentliche
+/// konzentrieren kann (Lanthanoide, Actinoide und viele Metalle sind aus).
+const Set<int> importantNumbers = {
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  22, 24, 25, 26, 27, 28, 29, 30, 33, 34, 35, 36, 38, 47, 48, 50, 51, 53,
+  54, 55, 56, 74, 78, 79, 80, 82, 86, 88, 92,
+};
+
+/// Haupttabellen-Zeilen in Anzeige-Reihenfolge (Periode 1..7).
+/// Lanthanoide und Actinoide stehen separat in [fBlockRows].
+final List<List<Element>> periodRows = [
+  [elementByNumber[1]!, elementByNumber[2]!],
+  [for (final n in [3, 4, 5, 6, 7, 8, 9, 10]) elementByNumber[n]!],
+  [for (final n in [11, 12, 13, 14, 15, 16, 17, 18]) elementByNumber[n]!],
+  [for (final n in [19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]) elementByNumber[n]!],
+  [for (final n in [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54]) elementByNumber[n]!],
+  [for (final n in [55, 56, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86]) elementByNumber[n]!],
+  [for (final n in [87, 88, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118]) elementByNumber[n]!],
+];
+
+/// Lanthanoiden- und Actinoiden-Reihen (je 15 Elemente).
+final List<List<Element>> fBlockRows = [
+  [for (final n in [57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]) elementByNumber[n]!],
+  [for (final n in [89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103]) elementByNumber[n]!],
+];
+
+/// Spalten (Gruppen) für vertikale Lücken-Aufgaben.
+final List<List<Element>> groupColumns = [
+  for (var g = 1; g <= 18; g++)
+    [for (final e in elements) if (e.group == g && e.series == null) e],
+];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Element;
 import '../data/elements_data.dart';
+import '../data/valences.dart';
 import '../models/element.dart';
 import '../services/electron_shells.dart';
 import 'colors.dart';
@@ -245,6 +246,7 @@ void showElementDetails(BuildContext context, Element e) {
               _InfoRow(label: 'Ordnungszahl', value: '${e.number}'),
               _InfoRow(label: 'Gruppe', value: '${e.group}'),
               _InfoRow(label: 'Periode', value: '${e.period}'),
+              _InfoRow(label: 'Wertigkeit', value: valenceLabel(e.number)),
               _InfoRow(label: 'Kategorie', value: e.category),
               _InfoRow(label: 'Molmasse', value: '${e.massLabel} g/mol'),
               const SizedBox(height: 12),

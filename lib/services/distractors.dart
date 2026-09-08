@@ -35,6 +35,12 @@ class Distractors {
     return _pick(correct, [...pool, ..._invented(correct, _latinSuffixes, rng)], count, rng);
   }
 
+  /// Ähnliche Begriffe aus einem frei wählbaren Pool (z. B. Formeln oder
+  /// Stoffnamen), ohne erfundene Varianten.
+  static List<String> similar(String correct, List<String> pool, Random rng, {int count = 3}) {
+    return _pick(correct, pool, count, rng);
+  }
+
   // ------------------------------------------------------------ Kern
 
   static List<String> _pick(String correct, List<String> pool, int count, Random rng) {

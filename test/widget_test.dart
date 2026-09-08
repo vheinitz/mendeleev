@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mendeleev/main.dart';
 import 'package:mendeleev/data/elements_data.dart';
 import 'package:mendeleev/data/substances.dart';
+import 'package:mendeleev/data/valences.dart';
 import 'package:mendeleev/services/app_settings.dart';
 import 'package:mendeleev/services/distractors.dart';
 import 'package:mendeleev/services/electron_shells.dart';
@@ -122,5 +123,20 @@ void main() {
     final r = FormulaParser.parse('CH3OH');
     expect(r.errors, isEmpty);
     expect(r.totalMass, closeTo(32.042, 0.01));
+  });
+
+  test('Wertigkeiten (Valenz)', () {
+    expect(mainValence(1), 1); // Wasserstoff
+    expect(mainValence(8), 2); // Sauerstoff
+    expect(mainValence(6), 4); // Kohlenstoff
+    expect(valenceLabel(26), '2, 3'); // Eisen
+    expect(valencesOf(2), [0]); // Helium
+  });
+
+  test('Distraktoren: ähnliche Formeln enthalten nicht die richtige Formel', () {
+    final rng = Random(3);
+    final d = Distractors.similar('H2O', substances.map((s) => s.formula).toList(), rng);
+    expect(d, isNot(contains('H2O')));
+    expect(d.length, 3);
   });
 }

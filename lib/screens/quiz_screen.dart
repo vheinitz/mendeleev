@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart' hide Element;
 import '../data/elements_data.dart';
@@ -20,6 +21,7 @@ enum QuizType {
   gap,
   valence,
   electronegativity,
+  electronegativityToElement,
   substanceToFormula,
   formulaToSubstance,
   elementToMass,
@@ -43,7 +45,8 @@ class QuizMenuScreen extends StatelessWidget {
           _tile(context, '🏛️', 'Lateinische Namen', 'Deutsche und lateinische Namen zuordnen', QuizType.latin, Colors.purple),
           _tile(context, '🧩', 'Lücke füllen', 'Das fehlende Element zwischen Nachbarn finden', QuizType.gap, Colors.orange),
           _tile(context, '⚡', 'Wertigkeit', 'Die Wertigkeit eines Elements nennen', QuizType.valence, Colors.amber),
-          _tile(context, '🎯', 'Elektronegativität', 'Die EN eines Elements nennen', QuizType.electronegativity, Colors.deepOrange),
+          _tile(context, '🎯', 'Element → Elektronegativität', 'Die EN eines Elements nennen', QuizType.electronegativity, Colors.deepOrange),
+          _tile(context, '🧲', 'Elektronegativität → Element', 'Zum EN-Wert das Element finden', QuizType.electronegativityToElement, Colors.orangeAccent),
           _tile(context, '🔍', 'Element finden', 'Gesuchtes Element in der Tabelle anklicken (Zeit läuft!)', QuizType.electronegativity, Colors.pink, findMode: true),
           _tile(context, '🧪', 'Stoff → Formel', 'Zur Stoffbezeichnung die Formel finden', QuizType.substanceToFormula, Colors.teal),
           _tile(context, '📝', 'Formel → Stoff', 'Zur Formel den Stoffnamen finden', QuizType.formulaToSubstance, Colors.cyan),
@@ -123,6 +126,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool _answered = false;
   bool _finished = false;
   bool _showHint = false;
+  Timer? _advanceTimer;
 
   String get _title => switch (widget.type) {
         QuizType.group => 'Gruppe nennen',
@@ -131,7 +135,8 @@ class _QuizScreenState extends State<QuizScreen> {
         QuizType.latin => 'Lateinische Namen',
         QuizType.gap => 'Lücke füllen',
         QuizType.valence => 'Wertigkeit',
-        QuizType.electronegativity => 'Elektronegativität',
+        QuizType.electronegativity => 'Element → Elektronegativität',
+        QuizType.electronegativityToElement => 'Elektronegativität → Element',
         QuizType.substanceToFormula => 'Stoff → Formel',
         QuizType.formulaToSubstance => 'Formel → Stoff',
         QuizType.elementToMass => 'Element → Molmasse',
@@ -144,6 +149,12 @@ class _QuizScreenState extends State<QuizScreen> {
     super.initState();
     _questionCount = _targetCount();
     _questions = List.generate(_questionCount, (_) => _nextQuestion());
+  }
+
+  @override
+  void dispose() {
+    _advanceTimer?.cancel();
+    super.dispose();
   }
 
   int _targetCount() {
@@ -222,6 +233,8 @@ class _QuizScreenState extends State<QuizScreen> {
         return _makeValenceQuestion();
       case QuizType.electronegativity:
         return _makeElectronegativityQuestion();
+      case QuizType.electronegativityToElement:
+        return _makeElectronegativityToElementQuestion();
       case QuizType.substanceToFormula:
       case QuizType.formulaToSubstance:
         return _makeSubstanceQuestion(toFormula: widget.type == QuizType.substanceToFormula);
@@ -342,17 +355,42 @@ class _QuizScreenState extends State<QuizScreen> {
     final e = _pickElement(active.isEmpty ? withEn : active);
     final en = electronegativityOf(e.number)!;
     final correct = _fmtNum(en);
-    final values = withEn.map((x) => electronegativityOf(x.number)!).toSet().toList()
-      ..sort((a, b) => (a - en).abs().compareTo((b - en).abs()));
-    final options = _numericOptions(correct, values.where((v) => (v - en).abs() > 0.005).take(8).toList());
+    // Falschantworten deutlich entfernt (außerhalb ±30 %), damit es um die
+    // Größenordnung geht.
+    final far = withEn.map((x) => electronegativityOf(x.number)!).toSet()
+        .where((v) => (v - en).abs() > 0.3 * en).toList()
+      ..shuffle(_random);
+    final opts = [correct, ...far.take(3).map(_fmtNum)]..shuffle(_random);
     return Question(
       prompt: 'Welche Elektronegativität hat dieses Element?',
       header: _ElementBadge(element: e),
       answerElement: e,
       key: 'e${e.number}',
-      options: options.options,
-      correctIndex: options.correctIndex,
+      options: opts,
+      correctIndex: opts.indexOf(correct),
       explanation: '${e.nameDe} hat die Elektronegativität $correct.',
+    );
+  }
+
+  Question _makeElectronegativityToElementQuestion() {
+    final withEn = elements.where((e) => electronegativityOf(e.number) != null).toList();
+    final active = withEn.where((e) => _settings.isActive(e.number)).toList();
+    final e = _pickElement(active.isEmpty ? withEn : active);
+    final en = electronegativityOf(e.number)!;
+    // Elemente mit möglichst unterschiedlicher EN als Falschantworten.
+    final sorted = withEn.where((x) => x.number != e.number).toList()
+      ..sort((a, b) => (electronegativityOf(b.number)! - en).abs()
+          .compareTo((electronegativityOf(a.number)! - en).abs()));
+    final names = sorted.take(3).map((x) => x.nameDe).toList();
+    final opts = [e.nameDe, ...names]..shuffle(_random);
+    return Question(
+      prompt: 'Welches Element hat die Elektronegativität ${_fmtNum(en)}?',
+      header: _ClueBadge(text: 'EN ${_fmtNum(en)}'),
+      answerElement: e,
+      key: 'e${e.number}',
+      options: opts,
+      correctIndex: opts.indexOf(e.nameDe),
+      explanation: 'Die Elektronegativität ${_fmtNum(en)} gehört zu ${e.nameDe} (${e.symbol}).',
     );
   }
 
@@ -501,6 +539,13 @@ class _QuizScreenState extends State<QuizScreen> {
       appBar: AppBar(
         title: Text(_title),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.timer_outlined),
+            tooltip: 'Auto-Weiter',
+            onPressed: _openAutoAdvanceSettings,
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(24),
           child: Padding(
@@ -601,9 +646,50 @@ class _QuizScreenState extends State<QuizScreen> {
         _settings.recordError(q.answerElement!.number);
       }
     });
+    _scheduleAutoAdvance();
+  }
+
+  void _scheduleAutoAdvance() {
+    _advanceTimer?.cancel();
+    final seconds = _settings.autoAdvanceSeconds;
+    if (seconds > 0 && !_finished) {
+      _advanceTimer = Timer(Duration(seconds: seconds), () {
+        if (mounted && _answered && !_finished) _next();
+      });
+    }
+  }
+
+  void _openAutoAdvanceSettings() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ListenableBuilder(
+        listenable: _settings,
+        builder: (context, _) => SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(12),
+                child: Text('Auto-Weiter nach Antwort', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              for (final s in const [0, 2, 3, 5])
+                ListTile(
+                  title: Text(s == 0 ? 'Aus (nur per Knopf)' : '$s Sekunden'),
+                  trailing: _settings.autoAdvanceSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
+                  onTap: () {
+                    _settings.setAutoAdvanceSeconds(s);
+                    Navigator.pop(context);
+                  },
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _next() {
+    _advanceTimer?.cancel();
     setState(() {
       if (_index == _questionCount - 1) {
         _finished = true;
@@ -617,6 +703,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _restart() {
+    _advanceTimer?.cancel();
     setState(() {
       _usedKeys.clear();
       _questions = List.generate(_questionCount, (_) => _nextQuestion());

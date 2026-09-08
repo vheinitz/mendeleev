@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide Element;
+import '../data/density.dart';
 import '../data/electronegativity.dart';
 import '../data/elements_data.dart';
 import '../data/valences.dart';
@@ -193,6 +194,7 @@ class PeriodicTableGrid extends StatelessWidget {
 void showElementDetails(BuildContext context, Element e) {
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     builder: (context) {
       return SingleChildScrollView(
         child: Padding(
@@ -241,11 +243,6 @@ void showElementDetails(BuildContext context, Element e) {
                       'Schalen: ${shellText(e.number)}',
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${e.number} Elektronen',
-                      style: const TextStyle(fontSize: 12, color: Colors.black54),
-                    ),
                   ],
                 ),
               ),
@@ -255,6 +252,7 @@ void showElementDetails(BuildContext context, Element e) {
               _InfoRow(label: 'Periode', value: '${e.period}'),
               _InfoRow(label: 'Wertigkeit', value: valenceLabel(e.number)),
               _InfoRow(label: 'Elektronegativität', value: electronegativityLabel(e.number)),
+              _InfoRow(label: 'Dichte', value: densityLabel(e.number)),
               _InfoRow(label: 'Kategorie', value: e.category),
               _InfoRow(label: 'Molmasse', value: '${e.massLabel} g/mol'),
               const SizedBox(height: 12),
@@ -283,7 +281,7 @@ class _InfoRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
-          SizedBox(width: 120, child: Text(label, style: const TextStyle(color: Colors.black54))),
+          SizedBox(width: 160, child: Text(label, style: const TextStyle(color: Colors.black54))),
           Expanded(child: Text(value, style: const TextStyle(fontWeight: FontWeight.w600))),
         ],
       ),

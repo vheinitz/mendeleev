@@ -33,6 +33,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
   final ValueNotifier<int> _remainingMs = ValueNotifier(0);
   int _totalMs = 5000;
   Timer? _timer;
+  Timer? _advanceTimer;
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
   @override
   void dispose() {
     _timer?.cancel();
+    _advanceTimer?.cancel();
     _remainingMs.dispose();
     super.dispose();
   }
@@ -90,6 +92,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
         _settings.recordError(_target!.number);
       }
     });
+    _scheduleAutoAdvance();
   }
 
   void _timeout() {
@@ -99,6 +102,17 @@ class _FindElementScreenState extends State<FindElementScreen> {
       _feedback = 'timeout';
       _settings.recordError(_target!.number);
     });
+    _scheduleAutoAdvance();
+  }
+
+  void _scheduleAutoAdvance() {
+    _advanceTimer?.cancel();
+    final seconds = _settings.autoAdvanceSeconds;
+    if (seconds > 0 && !_finished) {
+      _advanceTimer = Timer(Duration(seconds: seconds), () {
+        if (mounted && _feedback != null && !_finished) _next();
+      });
+    }
   }
 
   Map<int, Color> get _highlights {
@@ -110,6 +124,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
   }
 
   void _next() {
+    _advanceTimer?.cancel();
     if (_round + 1 >= _totalRounds) {
       setState(() => _finished = true);
     } else {
@@ -121,6 +136,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
   }
 
   void _restart() {
+    _advanceTimer?.cancel();
     setState(() {
       _usedNumbers.clear();
       _round = 0;
@@ -149,6 +165,20 @@ class _FindElementScreenState extends State<FindElementScreen> {
                   trailing: _settings.findSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
                   onTap: () {
                     _settings.setFindSeconds(s);
+                    Navigator.pop(context);
+                  },
+                ),
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.all(12),
+                child: Text('Auto-Weiter nach Antwort', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              for (final s in const [0, 2, 3, 5])
+                ListTile(
+                  title: Text(s == 0 ? 'Aus (nur per Knopf)' : '$s Sekunden'),
+                  trailing: _settings.autoAdvanceSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
+                  onTap: () {
+                    _settings.setAutoAdvanceSeconds(s);
                     Navigator.pop(context);
                   },
                 ),

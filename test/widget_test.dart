@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mendeleev/main.dart';
 import 'package:mendeleev/data/elements_data.dart';
+import 'package:mendeleev/data/density.dart';
 import 'package:mendeleev/data/electronegativity.dart';
 import 'package:mendeleev/data/substances.dart';
 import 'package:mendeleev/data/valences.dart';
@@ -102,6 +103,14 @@ void main() {
     expect(s.activeNumbers, isNot(contains(57))); // Lanthan ist standardmäßig aus
     expect(s.activeNumbers, isNot(contains(90))); // Thorium ist standardmäßig aus
     expect(s.findSeconds, 5); // Standard-Zeit beim Element-Finden
+    expect(s.autoAdvanceSeconds, 2); // Standard: Auto-Weiter nach 2 s
+  });
+
+  test('Dichte (g/cm³ bzw. g/L)', () {
+    expect(densityOf(29), closeTo(8.92, 0.001)); // Kupfer
+    expect(densityOf(12), closeTo(1.74, 0.001)); // Magnesium
+    expect(densityLabel(1), '0.09 g/L'); // Wasserstoff (Gas)
+    expect(densityLabel(29), '8.92 g/cm³'); // Kupfer (Feststoff)
   });
 
   test('Elektronegativität (Pauling)', () {

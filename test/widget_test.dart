@@ -7,6 +7,7 @@ import 'package:mendeleev/main.dart';
 import 'package:mendeleev/data/elements_data.dart';
 import 'package:mendeleev/data/density.dart';
 import 'package:mendeleev/data/electronegativity.dart';
+import 'package:mendeleev/data/names.dart';
 import 'package:mendeleev/data/substances.dart';
 import 'package:mendeleev/data/valences.dart';
 import 'package:mendeleev/services/app_settings.dart';
@@ -111,6 +112,14 @@ void main() {
     expect(densityOf(12), closeTo(1.74, 0.001)); // Magnesium
     expect(densityLabel(1), '0.09 g/L'); // Wasserstoff (Gas)
     expect(densityLabel(29), '8.92 g/cm³'); // Kupfer (Feststoff)
+  });
+
+  test('Übersetzungen: Element-, Kategorie- und Stoffnamen', () {
+    expect(elementNameEn[26], 'Iron'); // Eisen
+    expect(elementNameRu[26], 'Железо');
+    expect(categoryEn['Edelgas'], 'Noble gas');
+    expect(substanceNameEn['Wasser'], 'Water');
+    expect(substanceNameRu['Wasser'], 'Вода');
   });
 
   test('Elektronegativität (Pauling)', () {

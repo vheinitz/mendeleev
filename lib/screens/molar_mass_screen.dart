@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../data/elements_data.dart';
 import '../data/substances.dart';
 import '../services/formula_parser.dart';
+import '../services/l10n.dart';
 import '../widgets/colors.dart';
 
 class MolarMassScreen extends StatefulWidget {
@@ -16,14 +17,13 @@ class _MolarMassScreenState extends State<MolarMassScreen> {
   MolarMassResult? _result;
   String _formula = '';
 
-  /// Gefilterte Vorschläge: bei leerem Feld die wichtigsten Stoffe,
-  /// sonst Treffer auf Name ODER Formel (maximal 3 Zeilen).
   List<Substance> get _suggestions {
     final query = _controller.text.trim().toLowerCase();
     final source = query.isEmpty
         ? substances.take(3)
         : substances.where((s) =>
             s.name.toLowerCase().contains(query) ||
+            substanceName(s).toLowerCase().contains(query) ||
             s.formula.toLowerCase().contains(query));
     return source.take(3).toList();
   }
@@ -61,33 +61,26 @@ class _MolarMassScreenState extends State<MolarMassScreen> {
     final showNoHit = _controller.text.trim().isNotEmpty && suggestions.isEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Molmasse-Rechner'), centerTitle: true),
+      appBar: AppBar(title: Text(tr('Molmasse-Rechner')), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const Text(
-            'Gib einen Stoffnamen oder eine Formel ein.',
-            style: TextStyle(fontSize: 16),
-          ),
+          Text(tr('Gib einen Stoffnamen oder eine Formel ein.'), style: const TextStyle(fontSize: 16)),
           const SizedBox(height: 12),
           TextField(
             controller: _controller,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
-              hintText: 'z. B. Wasser oder H2O',
+              hintText: tr('z. B. Wasser oder H2O'),
               border: const OutlineInputBorder(),
               prefixIcon: const Icon(Icons.science),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: _clear,
-              ),
+              suffixIcon: IconButton(icon: const Icon(Icons.clear), onPressed: _clear),
             ),
             onChanged: (_) => setState(() {}),
             onSubmitted: (_) => _calculate(),
           ),
           const SizedBox(height: 10),
-          // Vorschläge (Name – Formel), maximal 3 Zeilen, ohne Scrollen.
           if (suggestions.isNotEmpty)
             Wrap(
               spacing: 8,
@@ -96,24 +89,24 @@ class _MolarMassScreenState extends State<MolarMassScreen> {
                 for (final s in suggestions)
                   ActionChip(
                     avatar: const Icon(Icons.science_outlined, size: 18),
-                    label: Text('${s.name} (${s.formula})'),
+                    label: Text('${substanceName(s)} (${s.formula})'),
                     onPressed: () => _select(s),
                   ),
               ],
             ),
           if (showNoHit)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 6),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
               child: Text(
-                'Kein Treffer – setze das Feld zurück und gib die Formel direkt ein.',
-                style: TextStyle(fontSize: 13, color: Colors.black54),
+                tr('Kein Treffer – setze das Feld zurück und gib die Formel direkt ein.'),
+                style: const TextStyle(fontSize: 13, color: Colors.black54),
               ),
             ),
           const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: _calculate,
             icon: const Icon(Icons.calculate),
-            label: const Text('Molmasse berechnen'),
+            label: Text(tr('Molmasse berechnen')),
             style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
           ),
           const SizedBox(height: 20),
@@ -140,8 +133,8 @@ class _ResultView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('⚠️ Fehler', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
-              for (final e in result.errors) Text('• $e'),
+              Text(tr('⚠️ Fehler'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+              for (final e in result.errors) Text('• ${tr(e)}'),
             ],
           ),
         ),
@@ -162,7 +155,7 @@ class _ResultView extends StatelessWidget {
               children: [
                 Text(formula, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                const Text('Molmasse', style: TextStyle(fontSize: 14, color: Colors.black54)),
+                Text(tr('Molmasse'), style: const TextStyle(fontSize: 14, color: Colors.black54)),
                 Text(
                   '${result.totalMass.toStringAsFixed(3).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '')} g/mol',
                   style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.green),
@@ -172,7 +165,7 @@ class _ResultView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const Text('Zusammensetzung', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        Text(tr('Zusammensetzung'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         Card(
           child: Column(
@@ -205,7 +198,7 @@ class _BreakdownRow extends StatelessWidget {
         decoration: BoxDecoration(color: elementColor(e), borderRadius: BorderRadius.circular(6)),
         child: Text(e.symbol, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
-      title: Text('${e.nameDe} · $count'),
+      title: Text('${elementName(e)} · $count'),
       subtitle: Text('${e.massLabel} g/mol × $count'),
       trailing: Text(
         '${subtotal.toStringAsFixed(2).replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '')} g/mol',

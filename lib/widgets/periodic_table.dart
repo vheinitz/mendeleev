@@ -5,6 +5,7 @@ import '../data/elements_data.dart';
 import '../data/valences.dart';
 import '../models/element.dart';
 import '../services/electron_shells.dart';
+import '../services/l10n.dart';
 import 'colors.dart';
 import 'electron_shell_diagram.dart';
 
@@ -226,8 +227,8 @@ void showElementDetails(BuildContext context, Element e) {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(e.nameDe, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                        Text('Lateinisch: ${e.nameLa}', style: const TextStyle(fontSize: 15, color: Colors.black54)),
+                        Text(elementName(e), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                        Text(tr('Lateinisch: {a}', {'a': e.nameLa}), style: const TextStyle(fontSize: 15, color: Colors.black54)),
                       ],
                     ),
                   ),
@@ -240,26 +241,26 @@ void showElementDetails(BuildContext context, Element e) {
                     ElectronShellDiagram(atomicNumber: e.number, size: 170),
                     const SizedBox(height: 8),
                     Text(
-                      'Schalen: ${shellText(e.number)}',
+                      tr('Schalen: {a}', {'a': shellText(e.number)}),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
-              _InfoRow(label: 'Ordnungszahl', value: '${e.number}'),
-              _InfoRow(label: 'Gruppe', value: '${e.group}'),
-              _InfoRow(label: 'Periode', value: '${e.period}'),
-              _InfoRow(label: 'Wertigkeit', value: valenceLabel(e.number)),
-              _InfoRow(label: 'Elektronegativität', value: electronegativityLabel(e.number)),
-              _InfoRow(label: 'Dichte', value: densityLabel(e.number)),
-              _InfoRow(label: 'Kategorie', value: e.category),
-              _InfoRow(label: 'Molmasse', value: '${e.massLabel} g/mol'),
+              _InfoRow(label: tr('Ordnungszahl'), value: '${e.number}'),
+              _InfoRow(label: tr('Gruppe'), value: '${e.group}'),
+              _InfoRow(label: tr('Periode'), value: '${e.period}'),
+              _InfoRow(label: tr('Wertigkeit'), value: valenceLabel(e.number)),
+              _InfoRow(label: tr('Elektronegativität'), value: electronegativityLabel(e.number)),
+              _InfoRow(label: tr('Dichte'), value: densityLabel(e.number)),
+              _InfoRow(label: tr('Kategorie'), value: categoryName(e.category)),
+              _InfoRow(label: tr('Molmasse'), value: '${e.massLabel} g/mol'),
               const SizedBox(height: 12),
               TextButton.icon(
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(Icons.close),
-                label: const Text('Schließen'),
+                label: Text(tr('Schließen')),
               ),
             ],
           ),

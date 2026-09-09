@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/app_settings.dart';
+import '../services/l10n.dart';
 import '../widgets/colors.dart';
 import '../widgets/periodic_table.dart';
 import 'config_screen.dart';
@@ -34,31 +35,31 @@ class _PeriodicTableScreenState extends State<PeriodicTableScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('Einstellungen', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(tr('Einstellungen'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
               SwitchListTile(
-                title: const Text('Fehler-Statistik anzeigen'),
-                subtitle: const Text('Rote Rahmen zeigen Problem-Elemente'),
+                title: Text(tr('Fehler-Statistik anzeigen')),
+                subtitle: Text(tr('Rote Rahmen zeigen Problem-Elemente')),
                 value: settings.showStats,
                 onChanged: (v) => settings.setShowStats(v),
               ),
               ListTile(
                 leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: const Text('Statistik zurücksetzen'),
+                title: Text(tr('Statistik zurücksetzen')),
                 onTap: () {
                   settings.resetErrors();
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Statistik wurde zurückgesetzt.')),
+                    SnackBar(content: Text(tr('Statistik wurde zurückgesetzt.'))),
                   );
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.tune),
-                title: const Text('Elemente konfigurieren'),
-                subtitle: const Text('Auswählen, welche Elemente abgefragt werden'),
+                title: Text(tr('Elemente konfigurieren')),
+                subtitle: Text(tr('Auswählen, welche Elemente abgefragt werden')),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) => const ConfigScreen()));
@@ -76,13 +77,10 @@ class _PeriodicTableScreenState extends State<PeriodicTableScreen> {
     final settings = AppSettings.instance;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.forceStats ? 'Fehler-Statistik' : 'Periodensystem'),
+        title: Text(widget.forceStats ? tr('Fehler-Statistik') : tr('Periodensystem')),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: _openSettings,
-          ),
+          IconButton(icon: const Icon(Icons.settings), onPressed: _openSettings),
         ],
       ),
       body: ListenableBuilder(
@@ -100,7 +98,7 @@ class _PeriodicTableScreenState extends State<PeriodicTableScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   child: Text(
-                    'Elemente mit Fehlern: $problemCount · Je dicker der rote Rahmen, desto mehr Probleme.',
+                    tr('Elemente mit Fehlern: {a} · Je dicker der rote Rahmen, desto mehr Probleme.', {'a': '$problemCount'}),
                     style: const TextStyle(fontSize: 13, color: Colors.black54),
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide Element;
 import '../models/element.dart';
+import '../services/l10n.dart';
 
 /// Farbe je Element-Kategorie (kindgerecht & übersichtlich).
 Color categoryColor(String category) {
@@ -67,7 +68,7 @@ class CategoryLegend extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 4),
-              Text(c, style: const TextStyle(fontSize: 12)),
+              Text(categoryName(c), style: const TextStyle(fontSize: 12)),
             ],
           ),
       ],

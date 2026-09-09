@@ -13,20 +13,25 @@ class MendeleevApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Periodensystem Lernprogramm',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.teal,
-        scaffoldBackgroundColor: const Color(0xFFF5F7FA),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          centerTitle: true,
+    final settings = AppSettings.instance;
+    return ListenableBuilder(
+      listenable: settings,
+      builder: (context, _) => MaterialApp(
+        key: ValueKey(settings.language),
+        title: 'Periodensystem Lernprogramm',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.teal,
+          scaffoldBackgroundColor: const Color(0xFFF5F7FA),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+            centerTitle: true,
+          ),
         ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/elements_data.dart';
 import '../services/app_settings.dart';
+import '../services/l10n.dart';
 import '../widgets/colors.dart';
 import '../widgets/periodic_table.dart';
 
@@ -13,7 +14,7 @@ class ConfigScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final settings = AppSettings.instance;
     return Scaffold(
-      appBar: AppBar(title: const Text('Elemente konfigurieren'), centerTitle: true),
+      appBar: AppBar(title: Text(tr('Elemente konfigurieren')), centerTitle: true),
       body: ListenableBuilder(
         listenable: settings,
         builder: (context, _) {
@@ -23,12 +24,12 @@ class ConfigScreen extends StatelessWidget {
           };
           return Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
                 child: Text(
-                  'Tippe auf ein Element, um es ein- oder auszublenden.\nGraue Elemente werden nicht abgefragt.',
+                  tr('Tippe auf ein Element, um es ein- oder auszublenden.\nGraue Elemente werden nicht abgefragt.'),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.black87),
+                  style: const TextStyle(fontSize: 14, color: Colors.black87),
                 ),
               ),
               Padding(
@@ -38,15 +39,15 @@ class ConfigScreen extends StatelessWidget {
                   children: [
                     FilledButton.tonal(
                       onPressed: () => settings.setActiveNumbers({for (final e in elements) e.number}),
-                      child: const Text('Alle'),
+                      child: Text(tr('Alle')),
                     ),
                     FilledButton.tonal(
                       onPressed: () => settings.setActiveNumbers({}),
-                      child: const Text('Keine'),
+                      child: Text(tr('Keine')),
                     ),
                     FilledButton.tonal(
                       onPressed: () => settings.setActiveNumbers(Set<int>.from(importantNumbers)),
-                      child: const Text('Wichtige Auswahl'),
+                      child: Text(tr('Wichtige Auswahl')),
                     ),
                   ],
                 ),
@@ -54,7 +55,7 @@ class ConfigScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: Text(
-                  'Aktiv: ${settings.activeCount} von ${elements.length}',
+                  tr('Aktiv: {a} von {b}', {'a': '${settings.activeCount}', 'b': '${elements.length}'}),
                   style: const TextStyle(fontSize: 13, color: Colors.black54),
                 ),
               ),

@@ -9,6 +9,7 @@ import '../models/element.dart';
 import '../services/app_settings.dart';
 import '../services/distractors.dart';
 import '../services/formula_parser.dart';
+import '../services/l10n.dart';
 import '../widgets/colors.dart';
 import 'config_screen.dart';
 import 'find_element_screen.dart';
@@ -35,24 +36,24 @@ class QuizMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Quiz & Üben'), centerTitle: true),
+      appBar: AppBar(title: Text(tr('Quiz & Üben')), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _tile(context, '🔢', 'Gruppe nennen', 'Zu einem Element die Gruppe (1–18) finden', QuizType.group, Colors.red),
-          _tile(context, '🔤', 'Symbol → Name', 'Zum Symbol den richtigen Namen finden', QuizType.symbolToName, Colors.blue),
-          _tile(context, '🔡', 'Name → Symbol', 'Zum Namen die richtige Abkürzung finden', QuizType.nameToSymbol, Colors.indigo),
-          _tile(context, '🏛️', 'Lateinische Namen', 'Deutsche und lateinische Namen zuordnen', QuizType.latin, Colors.purple),
-          _tile(context, '🧩', 'Lücke füllen', 'Das fehlende Element zwischen Nachbarn finden', QuizType.gap, Colors.orange),
-          _tile(context, '⚡', 'Wertigkeit', 'Die Wertigkeit eines Elements nennen', QuizType.valence, Colors.amber),
-          _tile(context, '🎯', 'Element → Elektronegativität', 'Die EN eines Elements nennen', QuizType.electronegativity, Colors.deepOrange),
-          _tile(context, '🧲', 'Elektronegativität → Element', 'Zum EN-Wert das Element finden', QuizType.electronegativityToElement, Colors.orangeAccent),
-          _tile(context, '🔍', 'Element finden', 'Gesuchtes Element in der Tabelle anklicken (Zeit läuft!)', QuizType.electronegativity, Colors.pink, findMode: true),
-          _tile(context, '🧪', 'Stoff → Formel', 'Zur Stoffbezeichnung die Formel finden', QuizType.substanceToFormula, Colors.teal),
-          _tile(context, '📝', 'Formel → Stoff', 'Zur Formel den Stoffnamen finden', QuizType.formulaToSubstance, Colors.cyan),
-          _tile(context, '⚖️', 'Element → Molmasse', 'Die Molmasse eines Elements nennen', QuizType.elementToMass, Colors.green),
-          _tile(context, '🏋️', 'Molmasse → Element', 'Zur Molmasse das Element finden', QuizType.massToElement, Colors.lightGreen),
-          _tile(context, '🧮', 'Stoffmenge (n, m, M)', 'Masse oder Stoffmenge berechnen', QuizType.amount, Colors.brown),
+          _tile(context, '🔢', tr('Gruppe nennen'), tr('Zu einem Element die Gruppe (1–18) finden'), QuizType.group, Colors.red),
+          _tile(context, '🔤', tr('Symbol → Name'), tr('Zum Symbol den richtigen Namen finden'), QuizType.symbolToName, Colors.blue),
+          _tile(context, '🔡', tr('Name → Symbol'), tr('Zum Namen die richtige Abkürzung finden'), QuizType.nameToSymbol, Colors.indigo),
+          _tile(context, '🏛️', tr('Lateinische Namen'), tr('Deutsche und lateinische Namen zuordnen'), QuizType.latin, Colors.purple),
+          _tile(context, '🧩', tr('Lücke füllen'), tr('Das fehlende Element zwischen Nachbarn finden'), QuizType.gap, Colors.orange),
+          _tile(context, '⚡', tr('Wertigkeit'), tr('Die Wertigkeit eines Elements nennen'), QuizType.valence, Colors.amber),
+          _tile(context, '🎯', tr('Element → Elektronegativität'), tr('Die EN eines Elements nennen'), QuizType.electronegativity, Colors.deepOrange),
+          _tile(context, '🧲', tr('Elektronegativität → Element'), tr('Zum EN-Wert das Element finden'), QuizType.electronegativityToElement, Colors.orangeAccent),
+          _tile(context, '🔍', tr('Element finden'), tr('Gesuchtes Element in der Tabelle anklicken (Zeit läuft!)'), QuizType.electronegativity, Colors.pink, findMode: true),
+          _tile(context, '🧪', tr('Stoff → Formel'), tr('Zur Stoffbezeichnung die Formel finden'), QuizType.substanceToFormula, Colors.teal),
+          _tile(context, '📝', tr('Formel → Stoff'), tr('Zur Formel den Stoffnamen finden'), QuizType.formulaToSubstance, Colors.cyan),
+          _tile(context, '⚖️', tr('Element → Molmasse'), tr('Die Molmasse eines Elements nennen'), QuizType.elementToMass, Colors.green),
+          _tile(context, '🏋️', tr('Molmasse → Element'), tr('Zur Molmasse das Element finden'), QuizType.massToElement, Colors.lightGreen),
+          _tile(context, '🧮', tr('Stoffmenge (n, m, M)'), tr('Masse oder Stoffmenge berechnen'), QuizType.amount, Colors.brown),
         ],
       ),
     );
@@ -129,19 +130,19 @@ class _QuizScreenState extends State<QuizScreen> {
   Timer? _advanceTimer;
 
   String get _title => switch (widget.type) {
-        QuizType.group => 'Gruppe nennen',
-        QuizType.symbolToName => 'Symbol → Name',
-        QuizType.nameToSymbol => 'Name → Symbol',
-        QuizType.latin => 'Lateinische Namen',
-        QuizType.gap => 'Lücke füllen',
-        QuizType.valence => 'Wertigkeit',
-        QuizType.electronegativity => 'Element → Elektronegativität',
-        QuizType.electronegativityToElement => 'Elektronegativität → Element',
-        QuizType.substanceToFormula => 'Stoff → Formel',
-        QuizType.formulaToSubstance => 'Formel → Stoff',
-        QuizType.elementToMass => 'Element → Molmasse',
-        QuizType.massToElement => 'Molmasse → Element',
-        QuizType.amount => 'Stoffmenge (n, m, M)',
+        QuizType.group => tr('Gruppe nennen'),
+        QuizType.symbolToName => tr('Symbol → Name'),
+        QuizType.nameToSymbol => tr('Name → Symbol'),
+        QuizType.latin => tr('Lateinische Namen'),
+        QuizType.gap => tr('Lücke füllen'),
+        QuizType.valence => tr('Wertigkeit'),
+        QuizType.electronegativity => tr('Element → Elektronegativität'),
+        QuizType.electronegativityToElement => tr('Elektronegativität → Element'),
+        QuizType.substanceToFormula => tr('Stoff → Formel'),
+        QuizType.formulaToSubstance => tr('Formel → Stoff'),
+        QuizType.elementToMass => tr('Element → Molmasse'),
+        QuizType.massToElement => tr('Molmasse → Element'),
+        QuizType.amount => tr('Stoffmenge (n, m, M)'),
       };
 
   @override
@@ -252,13 +253,13 @@ class _QuizScreenState extends State<QuizScreen> {
     final e = _pickElement(activeMain.isEmpty ? allMain : activeMain);
     final options = _distinctOptions('${e.group}', [for (var g = 1; g <= 18; g++) '$g']);
     return Question(
-      prompt: 'In welcher Gruppe steht dieses Element?',
+      prompt: tr('In welcher Gruppe steht dieses Element?'),
       header: _ElementBadge(element: e),
       answerElement: e,
       key: 'e${e.number}',
       options: options.options,
       correctIndex: options.correctIndex,
-      explanation: '${e.nameDe} (${e.symbol}) steht in Gruppe ${e.group}.',
+      explanation: tr('{a} ({b}) steht in Gruppe {c}.', {'a': elementName(e), 'b': e.symbol, 'c': '${e.group}'}),
     );
   }
 
@@ -267,15 +268,19 @@ class _QuizScreenState extends State<QuizScreen> {
     final e = _pickElement(active.isEmpty ? elements : active);
     final options = toSymbol
         ? _distinctOptions(e.symbol, Distractors.symbols(e.symbol, _random, count: 20))
-        : _distinctOptions(e.nameDe, Distractors.names(e.nameDe, _random, count: 20));
+        : _distinctOptions(elementName(e), Distractors.names(elementName(e), _random, count: 20));
     return Question(
-      prompt: toSymbol ? 'Wie lautet das Symbol von ${e.nameDe}?' : 'Wie heißt das Element mit dem Symbol ${e.symbol}?',
+      prompt: toSymbol
+          ? tr('Wie lautet das Symbol von {a}?', {'a': elementName(e)})
+          : tr('Wie heißt das Element mit dem Symbol {a}?', {'a': e.symbol}),
       header: toSymbol ? _ElementBadge(element: e, showSymbol: false) : _ElementBadge(element: e, showName: false),
       answerElement: e,
       key: 'e${e.number}',
       options: options.options,
       correctIndex: options.correctIndex,
-      explanation: toSymbol ? '${e.nameDe} hat das Symbol ${e.symbol}.' : '${e.symbol} steht für ${e.nameDe}.',
+      explanation: toSymbol
+          ? tr('{a} hat das Symbol {b}.', {'a': elementName(e), 'b': e.symbol})
+          : tr('{a} steht für {b}.', {'a': e.symbol, 'b': elementName(e)}),
     );
   }
 
@@ -286,19 +291,19 @@ class _QuizScreenState extends State<QuizScreen> {
     final askLatin = _random.nextBool();
     final options = askLatin
         ? _distinctOptions(e.nameLa, Distractors.latin(e.nameLa, _random, count: 20))
-        : _distinctOptions(e.nameDe, Distractors.names(e.nameDe, _random, count: 20));
+        : _distinctOptions(elementName(e), Distractors.names(elementName(e), _random, count: 20));
     return Question(
       prompt: askLatin
-          ? 'Wie lautet der lateinische Name von ${e.nameDe}?'
-          : 'Welches Element hat den lateinischen Namen ${e.nameLa}?',
+          ? tr('Wie lautet der lateinische Name von {a}?', {'a': elementName(e)})
+          : tr('Welches Element hat den lateinischen Namen {a}?', {'a': e.nameLa}),
       header: askLatin ? _ElementBadge(element: e) : _ElementBadge(element: e, showName: false, nameOverride: e.nameLa),
       answerElement: e,
       key: 'e${e.number}',
       options: options.options,
       correctIndex: options.correctIndex,
       explanation: askLatin
-          ? '${e.nameDe} heißt auf Lateinisch ${e.nameLa}.'
-          : '${e.nameLa} ist der lateinische Name von ${e.nameDe}.',
+          ? tr('{a} heißt auf Lateinisch {b}.', {'a': elementName(e), 'b': e.nameLa})
+          : tr('{a} ist der lateinische Name von {b}.', {'a': e.nameLa, 'b': elementName(e)}),
     );
   }
 
@@ -320,15 +325,16 @@ class _QuizScreenState extends State<QuizScreen> {
     final unused = pool.where((t) => !_usedKeys.contains('e${t.hidden.number}')).toList();
     final chosen = (unused.isEmpty ? pool : unused)[_random.nextInt((unused.isEmpty ? pool : unused).length)];
 
-    final options = _distinctOptions(chosen.hidden.nameDe, Distractors.names(chosen.hidden.nameDe, _random, count: 20));
+    final options = _distinctOptions(elementName(chosen.hidden), Distractors.names(elementName(chosen.hidden), _random, count: 20));
     return Question(
-      prompt: horizontal ? 'Welches Element fehlt in der Lücke?' : 'Welches Element steht zwischen den beiden?',
+      prompt: horizontal ? tr('Welches Element fehlt in der Lücke?') : tr('Welches Element steht zwischen den beiden?'),
       answerElement: chosen.hidden,
       key: 'e${chosen.hidden.number}',
       customPrompt: (context) => _GapPrompt(left: chosen.left, right: chosen.right, horizontal: horizontal),
       options: options.options,
       correctIndex: options.correctIndex,
-      explanation: 'Zwischen ${chosen.left.nameDe} und ${chosen.right.nameDe} steht ${chosen.hidden.nameDe} (${chosen.hidden.symbol}).',
+      explanation: tr('Zwischen {a} und {b} steht {c} ({d}).',
+          {'a': elementName(chosen.left), 'b': elementName(chosen.right), 'c': elementName(chosen.hidden), 'd': chosen.hidden.symbol}),
     );
   }
 
@@ -339,13 +345,13 @@ class _QuizScreenState extends State<QuizScreen> {
     final correct = '${mainValence(e.number)}';
     final options = _distinctOptions(correct, const ['0', '1', '2', '3', '4', '5', '6', '7', '8']);
     return Question(
-      prompt: 'Welche Wertigkeit hat dieses Element?',
+      prompt: tr('Welche Wertigkeit hat dieses Element?'),
       header: _ElementBadge(element: e),
       answerElement: e,
       key: 'e${e.number}',
       options: options.options,
       correctIndex: options.correctIndex,
-      explanation: '${e.nameDe} hat die Wertigkeit $correct.',
+      explanation: tr('{a} hat die Wertigkeit {b}.', {'a': elementName(e), 'b': correct}),
     );
   }
 
@@ -355,20 +361,18 @@ class _QuizScreenState extends State<QuizScreen> {
     final e = _pickElement(active.isEmpty ? withEn : active);
     final en = electronegativityOf(e.number)!;
     final correct = _fmtNum(en);
-    // Falschantworten deutlich entfernt (außerhalb ±30 %), damit es um die
-    // Größenordnung geht.
     final far = withEn.map((x) => electronegativityOf(x.number)!).toSet()
         .where((v) => (v - en).abs() > 0.3 * en).toList()
       ..shuffle(_random);
     final opts = [correct, ...far.take(3).map(_fmtNum)]..shuffle(_random);
     return Question(
-      prompt: 'Welche Elektronegativität hat dieses Element?',
+      prompt: tr('Welche Elektronegativität hat dieses Element?'),
       header: _ElementBadge(element: e),
       answerElement: e,
       key: 'e${e.number}',
       options: opts,
       correctIndex: opts.indexOf(correct),
-      explanation: '${e.nameDe} hat die Elektronegativität $correct.',
+      explanation: tr('{a} hat die Elektronegativität {b}.', {'a': elementName(e), 'b': correct}),
     );
   }
 
@@ -377,20 +381,19 @@ class _QuizScreenState extends State<QuizScreen> {
     final active = withEn.where((e) => _settings.isActive(e.number)).toList();
     final e = _pickElement(active.isEmpty ? withEn : active);
     final en = electronegativityOf(e.number)!;
-    // Elemente mit möglichst unterschiedlicher EN als Falschantworten.
     final sorted = withEn.where((x) => x.number != e.number).toList()
       ..sort((a, b) => (electronegativityOf(b.number)! - en).abs()
           .compareTo((electronegativityOf(a.number)! - en).abs()));
-    final names = sorted.take(3).map((x) => x.nameDe).toList();
-    final opts = [e.nameDe, ...names]..shuffle(_random);
+    final names = sorted.take(3).map((x) => elementName(x)).toList();
+    final opts = [elementName(e), ...names]..shuffle(_random);
     return Question(
-      prompt: 'Welches Element hat die Elektronegativität ${_fmtNum(en)}?',
+      prompt: tr('Welches Element hat die Elektronegativität {a}?', {'a': _fmtNum(en)}),
       header: _ClueBadge(text: 'EN ${_fmtNum(en)}'),
       answerElement: e,
       key: 'e${e.number}',
       options: opts,
-      correctIndex: opts.indexOf(e.nameDe),
-      explanation: 'Die Elektronegativität ${_fmtNum(en)} gehört zu ${e.nameDe} (${e.symbol}).',
+      correctIndex: opts.indexOf(elementName(e)),
+      explanation: tr('Die Elektronegativität {a} gehört zu {b} ({c}).', {'a': _fmtNum(en), 'b': elementName(e), 'c': e.symbol}),
     );
   }
 
@@ -398,14 +401,16 @@ class _QuizScreenState extends State<QuizScreen> {
     final s = _pickSubstance(substances, toFormula ? 'sf' : 'fs');
     final options = toFormula
         ? _distinctOptions(s.formula, Distractors.similar(s.formula, substances.map((x) => x.formula).toList(), _random, count: 20))
-        : _distinctOptions(s.name, Distractors.similar(s.name, substances.map((x) => x.name).toList(), _random, count: 20));
+        : _distinctOptions(substanceName(s), Distractors.similar(substanceName(s), substances.map((x) => substanceName(x)).toList(), _random, count: 20));
     return Question(
-      prompt: toFormula ? 'Wie lautet die Formel dieses Stoffes?' : 'Wie heißt der Stoff mit dieser Formel?',
-      header: _ClueBadge(text: toFormula ? s.name : s.formula),
+      prompt: toFormula ? tr('Wie lautet die Formel dieses Stoffes?') : tr('Wie heißt der Stoff mit dieser Formel?'),
+      header: _ClueBadge(text: toFormula ? substanceName(s) : s.formula),
       key: '${toFormula ? 'sf' : 'fs'}${s.formula}',
       options: options.options,
       correctIndex: options.correctIndex,
-      explanation: toFormula ? '${s.name} hat die Formel ${s.formula}.' : '${s.formula} ist ${s.name}.',
+      explanation: toFormula
+          ? tr('{a} hat die Formel {b}.', {'a': substanceName(s), 'b': s.formula})
+          : tr('{a} ist {b}.', {'a': s.formula, 'b': substanceName(s)}),
     );
   }
 
@@ -419,26 +424,26 @@ class _QuizScreenState extends State<QuizScreen> {
         ..sort((a, b) => (a - e.mass).abs().compareTo((b - e.mass).abs()));
       final options = _numericOptions(mass, sorted.where((m) => (m - e.mass).abs() > 0.01).take(8).toList());
       return Question(
-        prompt: 'Wie groß ist die Molmasse dieses Elements?',
+        prompt: tr('Wie groß ist die Molmasse dieses Elements?'),
         header: _ElementBadge(element: e),
         answerElement: e,
         key: 'e${e.number}',
         options: options.options,
         correctIndex: options.correctIndex,
-        explanation: 'Die Molmasse von ${e.nameDe} ist $mass g/mol.',
+        explanation: tr('Die Molmasse von {a} ist {b} g/mol.', {'a': elementName(e), 'b': mass}),
       );
     } else {
       final sorted = elements.toList()..sort((a, b) => (a.mass - e.mass).abs().compareTo((b.mass - e.mass).abs()));
-      final names = sorted.where((x) => x.number != e.number).take(3).map((x) => x.nameDe).toList();
-      final opts = [e.nameDe, ...names]..shuffle(_random);
+      final names = sorted.where((x) => x.number != e.number).take(3).map((x) => elementName(x)).toList();
+      final opts = [elementName(e), ...names]..shuffle(_random);
       return Question(
-        prompt: 'Welches Element hat diese Molmasse?',
+        prompt: tr('Welches Element hat diese Molmasse?'),
         header: _ClueBadge(text: '$mass g/mol'),
         answerElement: e,
         key: 'e${e.number}',
         options: opts,
-        correctIndex: opts.indexOf(e.nameDe),
-        explanation: '$mass g/mol ist die Molmasse von ${e.nameDe} (${e.symbol}).',
+        correctIndex: opts.indexOf(elementName(e)),
+        explanation: tr('{a} g/mol ist die Molmasse von {b} ({c}).', {'a': mass, 'b': elementName(e), 'c': e.symbol}),
       );
     }
   }
@@ -451,12 +456,12 @@ class _QuizScreenState extends State<QuizScreen> {
     final givenN = _random.nextBool();
 
     final hint = 'M(${s.formula}) = ${_fmtNum(M)} g/mol';
-    final header = _ClueBadge(text: '${s.name}\n${s.formula}');
+    final header = _ClueBadge(text: '${substanceName(s)}\n${s.formula}');
 
     if (givenN) {
       final options = _numericOptions(_fmtNum(m), [m * 0.5, m * 2, m + M, m - M, M, m + 1, m * 3]);
       return Question(
-        prompt: 'Berechne die Masse m von ${_fmtNum(n)} mol ${s.name} (${s.formula}).',
+        prompt: tr('Berechne die Masse m von {a} mol {b} ({c}).', {'a': _fmtNum(n), 'b': substanceName(s), 'c': s.formula}),
         header: header,
         key: 'am${s.formula}',
         options: options.options,
@@ -467,7 +472,7 @@ class _QuizScreenState extends State<QuizScreen> {
     } else {
       final options = _numericOptions(_fmtNum(n), [n + 1, n - 1, n * 2, n / 2, n + 0.5, n - 0.5, n * 3]);
       return Question(
-        prompt: 'Berechne die Stoffmenge n von ${_fmtNum(m)} g ${s.name} (${s.formula}).',
+        prompt: tr('Berechne die Stoffmenge n von {a} g {b} ({c}).', {'a': _fmtNum(m), 'b': substanceName(s), 'c': s.formula}),
         header: header,
         key: 'am${s.formula}',
         options: options.options,
@@ -493,14 +498,14 @@ class _QuizScreenState extends State<QuizScreen> {
               children: [
                 const Text('😕', style: TextStyle(fontSize: 64)),
                 const SizedBox(height: 12),
-                const Text('Es sind keine Elemente aktiviert.', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(tr('Es sind keine Elemente aktiviert.'), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                const Text('Aktiviere zuerst einige Elemente in der Konfiguration.', textAlign: TextAlign.center),
+                Text(tr('Aktiviere zuerst einige Elemente in der Konfiguration.'), textAlign: TextAlign.center),
                 const SizedBox(height: 20),
                 FilledButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConfigScreen())),
                   icon: const Icon(Icons.tune),
-                  label: const Text('Elemente konfigurieren'),
+                  label: Text(tr('Elemente konfigurieren')),
                 ),
               ],
             ),
@@ -520,13 +525,14 @@ class _QuizScreenState extends State<QuizScreen> {
               children: [
                 Text(_score >= 8 ? '🎉' : _score >= 5 ? '👍' : '💪', style: const TextStyle(fontSize: 72)),
                 const SizedBox(height: 16),
-                const Text('Fertig!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                Text(tr('Fertig!'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                Text('Du hast $_score von $_questionCount richtig beantwortet.', style: const TextStyle(fontSize: 18), textAlign: TextAlign.center),
+                Text(tr('Du hast {a} von {b} richtig beantwortet.', {'a': '$_score', 'b': '$_questionCount'}),
+                    style: const TextStyle(fontSize: 18), textAlign: TextAlign.center),
                 const SizedBox(height: 24),
-                FilledButton.icon(onPressed: _restart, icon: const Icon(Icons.replay), label: const Text('Nochmal üben')),
+                FilledButton.icon(onPressed: _restart, icon: const Icon(Icons.replay), label: Text(tr('Nochmal üben'))),
                 const SizedBox(height: 8),
-                TextButton(onPressed: () => Navigator.pop(context), child: const Text('Zurück zum Menü')),
+                TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Zurück zum Menü'))),
               ],
             ),
           ),
@@ -542,7 +548,7 @@ class _QuizScreenState extends State<QuizScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.timer_outlined),
-            tooltip: 'Auto-Weiter',
+            tooltip: tr('Auto-Weiter nach Antwort'),
             onPressed: _openAutoAdvanceSettings,
           ),
         ],
@@ -554,7 +560,7 @@ class _QuizScreenState extends State<QuizScreen> {
               children: [
                 LinearProgressIndicator(value: _index / _questionCount, minHeight: 6),
                 const SizedBox(height: 6),
-                Text('Frage ${_index + 1} von $_questionCount · Punkte: $_score'),
+                Text(tr('Frage {a} von {b} · Punkte: {c}', {'a': '${_index + 1}', 'b': '$_questionCount', 'c': '$_score'})),
               ],
             ),
           ),
@@ -576,7 +582,7 @@ class _QuizScreenState extends State<QuizScreen> {
             const SizedBox(height: 6),
             TextButton(
               onPressed: () => setState(() => _showHint = !_showHint),
-              child: Text(_showHint ? 'Tipp ausblenden' : '💡 Tipp anzeigen'),
+              child: Text(_showHint ? tr('Tipp ausblenden') : tr('💡 Tipp anzeigen')),
             ),
             if (_showHint)
               Text(q.hint!, textAlign: TextAlign.center, style: const TextStyle(fontSize: 15, color: Colors.teal, fontWeight: FontWeight.w600)),
@@ -591,7 +597,8 @@ class _QuizScreenState extends State<QuizScreen> {
                 padding: const EdgeInsets.all(12),
                 child: Column(
                   children: [
-                    Text(_selected == q.correctIndex ? '✅ Richtig!' : '❌ Leider falsch.', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(_selected == q.correctIndex ? tr('✅ Richtig!') : tr('❌ Leider falsch.'),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 4),
                     Text(q.explanation, textAlign: TextAlign.center),
                   ],
@@ -601,7 +608,7 @@ class _QuizScreenState extends State<QuizScreen> {
             const SizedBox(height: 12),
             FilledButton(
               onPressed: _next,
-              child: Text(_index == _questionCount - 1 ? 'Ergebnis anzeigen' : 'Weiter'),
+              child: Text(_index == _questionCount - 1 ? tr('Ergebnis anzeigen') : tr('Weiter')),
             ),
           ],
         ],
@@ -668,13 +675,13 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('Auto-Weiter nach Antwort', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(tr('Auto-Weiter nach Antwort'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
               for (final s in const [0, 2, 3, 5])
                 ListTile(
-                  title: Text(s == 0 ? 'Aus (nur per Knopf)' : '$s Sekunden'),
+                  title: Text(s == 0 ? tr('Aus (nur per Knopf)') : tr('{a} Sekunden', {'a': '$s'})),
                   trailing: _settings.autoAdvanceSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
                   onTap: () {
                     _settings.setAutoAdvanceSeconds(s);
@@ -734,7 +741,7 @@ class _ElementBadge extends StatelessWidget {
         children: [
           Text('${element.number}', style: const TextStyle(fontSize: 14, color: Colors.black54)),
           if (showSymbol) Text(element.symbol, style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)),
-          if (showName) Text(nameOverride ?? element.nameDe, style: const TextStyle(fontSize: 16)),
+          if (showName) Text(nameOverride ?? elementName(element), style: const TextStyle(fontSize: 16)),
         ],
       ),
     );
@@ -751,11 +758,7 @@ class _ClueBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(color: Colors.teal.shade100, borderRadius: BorderRadius.circular(16)),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
+      child: Text(text, textAlign: TextAlign.center, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     );
   }
 }

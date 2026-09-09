@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Element;
 import '../data/elements_data.dart';
 import '../models/element.dart';
 import '../services/app_settings.dart';
+import '../services/l10n.dart';
 import '../widgets/periodic_table.dart';
 import 'config_screen.dart';
 
@@ -146,7 +147,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
     });
   }
 
-  void _openTimeSettings() {
+  void _openSettings() {
     showModalBottomSheet(
       context: context,
       builder: (context) => ListenableBuilder(
@@ -155,13 +156,13 @@ class _FindElementScreenState extends State<FindElementScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('Zeit pro Element', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(tr('Zeit pro Element'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
               for (final s in const [3, 5, 10, 15])
                 ListTile(
-                  title: Text('$s Sekunden'),
+                  title: Text(tr('{a} Sekunden', {'a': '$s'})),
                   trailing: _settings.findSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
                   onTap: () {
                     _settings.setFindSeconds(s);
@@ -169,13 +170,13 @@ class _FindElementScreenState extends State<FindElementScreen> {
                   },
                 ),
               const Divider(),
-              const Padding(
-                padding: EdgeInsets.all(12),
-                child: Text('Auto-Weiter nach Antwort', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(tr('Auto-Weiter nach Antwort'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
               for (final s in const [0, 2, 3, 5])
                 ListTile(
-                  title: Text(s == 0 ? 'Aus (nur per Knopf)' : '$s Sekunden'),
+                  title: Text(s == 0 ? tr('Aus (nur per Knopf)') : tr('{a} Sekunden', {'a': '$s'})),
                   trailing: _settings.autoAdvanceSeconds == s ? const Icon(Icons.check, color: Colors.teal) : null,
                   onTap: () {
                     _settings.setAutoAdvanceSeconds(s);
@@ -193,7 +194,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
   Widget build(BuildContext context) {
     if (_totalRounds == 0) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Element finden'), centerTitle: true),
+        appBar: AppBar(title: Text(tr('Element finden')), centerTitle: true),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -202,14 +203,14 @@ class _FindElementScreenState extends State<FindElementScreen> {
               children: [
                 const Text('😕', style: TextStyle(fontSize: 64)),
                 const SizedBox(height: 12),
-                const Text('Es sind keine Elemente aktiviert.', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(tr('Es sind keine Elemente aktiviert.'), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                const Text('Aktiviere zuerst einige Elemente in der Konfiguration.', textAlign: TextAlign.center),
+                Text(tr('Aktiviere zuerst einige Elemente in der Konfiguration.'), textAlign: TextAlign.center),
                 const SizedBox(height: 20),
                 FilledButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ConfigScreen())),
                   icon: const Icon(Icons.tune),
-                  label: const Text('Elemente konfigurieren'),
+                  label: Text(tr('Elemente konfigurieren')),
                 ),
               ],
             ),
@@ -220,7 +221,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
 
     if (_finished) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Element finden'), centerTitle: true),
+        appBar: AppBar(title: Text(tr('Element finden')), centerTitle: true),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -229,13 +230,14 @@ class _FindElementScreenState extends State<FindElementScreen> {
               children: [
                 Text(_score >= 8 ? '🎉' : _score >= 5 ? '👍' : '💪', style: const TextStyle(fontSize: 72)),
                 const SizedBox(height: 16),
-                const Text('Fertig!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                Text(tr('Fertig!'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                Text('Du hast $_score von $_totalRounds Elementen gefunden.', style: const TextStyle(fontSize: 18), textAlign: TextAlign.center),
+                Text(tr('Du hast {a} von {b} Elementen gefunden.', {'a': '$_score', 'b': '$_totalRounds'}),
+                    style: const TextStyle(fontSize: 18), textAlign: TextAlign.center),
                 const SizedBox(height: 24),
-                FilledButton.icon(onPressed: _restart, icon: const Icon(Icons.replay), label: const Text('Nochmal üben')),
+                FilledButton.icon(onPressed: _restart, icon: const Icon(Icons.replay), label: Text(tr('Nochmal üben'))),
                 const SizedBox(height: 8),
-                TextButton(onPressed: () => Navigator.pop(context), child: const Text('Zurück zum Menü')),
+                TextButton(onPressed: () => Navigator.pop(context), child: Text(tr('Zurück zum Menü'))),
               ],
             ),
           ),
@@ -245,10 +247,10 @@ class _FindElementScreenState extends State<FindElementScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Element finden'),
+        title: Text(tr('Element finden')),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.timer_outlined), onPressed: _openTimeSettings),
+          IconButton(icon: const Icon(Icons.timer_outlined), onPressed: _openSettings),
         ],
       ),
       body: Column(
@@ -257,14 +259,14 @@ class _FindElementScreenState extends State<FindElementScreen> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                Text('Runde ${_round + 1} von $_totalRounds · Punkte: $_score'),
+                Text(tr('Runde {a} von {b} · Punkte: {c}', {'a': '${_round + 1}', 'b': '$_totalRounds', 'c': '$_score'})),
                 const SizedBox(height: 8),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(color: Colors.teal.shade100, borderRadius: BorderRadius.circular(12)),
                   child: Text(
-                    'Finde: ${_target!.nameDe}',
+                    tr('Finde: {a}', {'a': elementName(_target!)}),
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -289,7 +291,7 @@ class _FindElementScreenState extends State<FindElementScreen> {
                   const SizedBox(height: 8),
                   FilledButton(
                     onPressed: _next,
-                    child: Text(_round + 1 >= _totalRounds ? 'Ergebnis anzeigen' : 'Weiter'),
+                    child: Text(_round + 1 >= _totalRounds ? tr('Ergebnis anzeigen') : tr('Weiter')),
                   ),
                 ],
               ],
@@ -322,9 +324,9 @@ class _FeedbackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (icon, text, color) = switch (feedback) {
-      'correct' => ('✅', 'Richtig!', Colors.green),
-      'wrong' => ('❌', 'Falsch!', Colors.red),
-      _ => ('⏰', 'Zeit abgelaufen!', Colors.orange),
+      'correct' => ('✅', tr('Richtig!'), Colors.green),
+      'wrong' => ('❌', tr('Falsch!'), Colors.red),
+      _ => ('⏰', tr('Zeit abgelaufen!'), Colors.orange),
     };
     return Card(
       color: color.shade50,
@@ -334,7 +336,7 @@ class _FeedbackCard extends StatelessWidget {
           children: [
             Text('$icon $text', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 2),
-            Text('Gesucht war ${target.nameDe} (${target.symbol}).', textAlign: TextAlign.center),
+            Text(tr('Gesucht war {a} ({b}).', {'a': elementName(target), 'b': target.symbol}), textAlign: TextAlign.center),
           ],
         ),
       ),
